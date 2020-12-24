@@ -3,3 +3,6 @@
 .Rdata
 .httr-oauth
 .DS_Store
+dev/sandbox.R
+dev/sandbox.py
+airflow/*.db
