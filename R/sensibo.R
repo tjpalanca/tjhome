@@ -9,7 +9,7 @@
 #' @name sensibo
 NULL
 
-#' @describeIn sensibo Generic API call, memoised
+#' @describeIn sensibo Generic API call
 #' @export
 sensibo_call <- function(path, ...,
                          query = list(),

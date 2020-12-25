@@ -20,7 +20,7 @@ NODENAME=$(shell kubectl get pod $(HOSTNAME) -o=jsonpath={'.spec.nodeName'})
 
 # Cloud66 Redeployment Details
 C66_DEPLOY_HOOK=${C66_DEPLOY_HOOK}
-C66_DEPLOY_SERVICES=
+C66_DEPLOY_SERVICES=tjhome
 
 # Log in to docker hub
 dockerhub-login:

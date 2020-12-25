@@ -29,5 +29,9 @@ jobs:
             run: make pkg-release
             env:
                 GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          - name: Deploy C66 Stack
+            run: make pkg-deploy
+            env:
+                C66_DEPLOY_HOOK: ${{ secrets.C66_DEPLOY_HOOK }}
           - name: Deploy documentation
             run: make pkg-docs-deploy
