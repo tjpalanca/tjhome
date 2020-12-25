@@ -7,7 +7,7 @@
 #' @param interval polling interval in seconds
 #'
 #' @export
-job_maintain_ac_temp <- function(interval = 5) {
+job_maintain_ac_temp <- function(interval = 300) {
   while (TRUE) {
     sensibo_maintain_devices()
     Sys.sleep(interval)
