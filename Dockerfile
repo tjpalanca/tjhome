@@ -14,7 +14,9 @@ RUN Rscript -e 'renv::restore()'
 COPY DESCRIPTION DESCRIPTION
 COPY NAMESPACE NAMESPACE
 COPY .Rbuildignore .Rbuildignore
+COPY inst inst
 COPY man man
+COPY tests tests
 COPY R R
 
 # Install package
