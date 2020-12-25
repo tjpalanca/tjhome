@@ -19,7 +19,6 @@ GHA_ENV_VARS= \
 NODENAME=$(shell kubectl get pod $(HOSTNAME) -o=jsonpath={'.spec.nodeName'})
 
 # Cloud66 Redeployment Details
-C66_DEPLOY_HOOK=${C66_DEPLOY_HOOK}
 C66_DEPLOY_SERVICES=tjhome
 
 # Log in to docker hub
@@ -61,7 +60,7 @@ pkg-publish:
 
 # Deploy to Cloud66
 pkg-deploy:
-	curl -X POST $(C66_DEPLOY_HOOK)?services=$(C66_DEPLOY_SERVICES)
+	curl -X POST ${C66_DEPLOY_HOOK}?services=$(C66_DEPLOY_SERVICES)
 
 # Run the package test suite
 pkg-test:
