@@ -80,7 +80,7 @@ pkg-test-coverage:
 		$(GHA_ENV_VARS) \
 		$(ENV_VARS) \
 		$(VER_IMG) \
-		Rscript -e "tjhome::dev_cicd_test_coverage(min_test_coverage = 0)"
+		Rscript -e "tjhome::dev_cicd_test_coverage(min_test_coverage = -Inf)"
 
 # Test for linting errors
 pkg-test-linting:
