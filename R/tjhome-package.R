@@ -8,6 +8,8 @@
 #' @importFrom memoise memoise
 #' @importFrom setter set_class
 #' @import assertthat
+#' @import later
+#' @import logger
 #' @keywords internal
 "_PACKAGE"
 

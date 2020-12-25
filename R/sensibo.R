@@ -15,6 +15,7 @@ sensibo_call <- function(path, ...,
                          query = list(),
                          verb = "GET",
                          api_key = Sys.getenv("SENSIBO_API_KEY")) {
+  log_trace("[SENSIBO] Making API Call: {path}")
   RETRY(
     verb  = verb,
     url   = "https://home.sensibo.com/",
@@ -28,11 +29,12 @@ sensibo_call <- function(path, ...,
 }
 
 #' @describeIn sensibo Get all the data as a tibble
-sensibo_info <- memoise(function() {
+sensibo_info <- function() {
+  log_trace("[SENSIBO] Fetching device data...")
   sensibo_call("users/me/pods", query = list(fields = "*")) %>%
     tibble(sensibo = .) %>%
     unnest_wider(sensibo)
-})
+}
 
 #' @describeIn sensibo Parse sensibo information into usable format
 #' @export
@@ -73,13 +75,13 @@ sensibo_devices <- function() {
 #' @param warm_fan_speed fan speed if the room is too warm
 #' @export
 sensibo_maintain_fan_speed <- function(device_id,
-                             cur_temp,
-                             min_temp,
-                             max_temp,
-                             curr_fan_speed,
-                             cool_fan_speed = "medium_low",
-                             norm_fan_speed = "medium",
-                             warm_fan_speed = "high") {
+                                       cur_temp,
+                                       min_temp,
+                                       max_temp,
+                                       curr_fan_speed,
+                                       cool_fan_speed = "medium_low",
+                                       norm_fan_speed = "medium",
+                                       warm_fan_speed = "high") {
 
   assert_that(is.string(device_id))
   assert_that(is.number(cur_temp))
@@ -95,6 +97,11 @@ sensibo_maintain_fan_speed <- function(device_id,
   } else {
     norm_fan_speed
   }
+  log_info(
+    "[SENSIBO] {device_id} currently {cur_temp}C and {curr_fan_speed}. ",
+    "Target temperature range is {min_temp}C to {max_temp}C. ",
+    "Therefore, target fan speed is {target_fan_speed}."
+  )
 
   if (curr_fan_speed != target_fan_speed) {
     sensibo_set_fan_speed(device_id, target_fan_speed)
@@ -111,6 +118,7 @@ sensibo_set_fan_speed <- function(device_id, fan_speed) {
   assert_that(is.string(device_id))
   assert_that(is.string(fan_speed))
 
+  log_info("[SENSIBO] Setting {device_id} fan speed to {fan_speed}")
   sensibo_call(
     verb = "PATCH",
     path = glue("pods/{device_id}/acStates/fanLevel"),
@@ -132,9 +140,12 @@ sensibo_config <- function() {
 #' @describeIn sensibo maintains devices according to the configuration
 #' @export
 sensibo_maintain_devices <- function() {
+  log_info("[SENSIBO] Running maintenance loop")
   sensibo_devices() %>%
-    inner_join(sensibo_config(), by = "device_id") %>%
-    filter(is_powered_on) %>%
+    inner_join(sensibo_config(), by = "device_id") %T>%
+    { log_info("{nrow(.)} total devices") } %>%
+    filter(is_powered_on) %T>%
+    { log_info("{nrow(.)} powered on") } %>%
     mutate(
       maintain_fan_speed = pmap(
         list(device_id, fan_speed, temperature, min_temp, max_temp),
@@ -148,4 +159,3 @@ sensibo_maintain_devices <- function() {
       )
     )
 }
-
