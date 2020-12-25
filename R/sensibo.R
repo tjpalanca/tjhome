@@ -143,9 +143,9 @@ sensibo_maintain_devices <- function() {
   log_info("[SENSIBO] Running maintenance loop")
   sensibo_devices() %>%
     inner_join(sensibo_config(), by = "device_id") %T>%
-    { log_info("{nrow(.)} total devices") } %>%
+    { log_info("[SENSIBO] {nrow(.)} total devices") } %>%
     filter(is_powered_on) %T>%
-    { log_info("{nrow(.)} powered on") } %>%
+    { log_info("[SENSIBO] {nrow(.)} powered on") } %>%
     mutate(
       maintain_fan_speed = pmap(
         list(device_id, fan_speed, temperature, min_temp, max_temp),
