@@ -6,3 +6,4 @@
 dev/sandbox.R
 dev/sandbox.py
 airflow/*.db
+airflow/*.pid
