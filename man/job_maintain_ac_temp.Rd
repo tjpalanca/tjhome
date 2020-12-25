@@ -4,7 +4,10 @@
 \alias{job_maintain_ac_temp}
 \title{Job: Maintain AC Temperature}
 \usage{
-job_maintain_ac_temp(interval = 60, loop = create_loop())
+job_maintain_ac_temp(interval = 5)
+}
+\arguments{
+\item{interval}{polling interval in seconds}
 }
 \description{
 This keeps the temperature maintained across a particular range.

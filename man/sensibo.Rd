@@ -66,7 +66,7 @@ API documentation is \href{https://sensibo.github.io/}{here}.
 }
 \section{Functions}{
 \itemize{
-\item \code{sensibo_call}: Generic API call, memoised
+\item \code{sensibo_call}: Generic API call
 
 \item \code{sensibo_info}: Get all the data as a tibble
 
