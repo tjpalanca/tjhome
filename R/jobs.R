@@ -8,7 +8,7 @@
 #'
 #' @export
 job_maintain_ac_temp <- function(interval = 5) {
-  while(TRUE) {
+  while (TRUE) {
     sensibo_maintain_devices()
     Sys.sleep(interval)
   }
