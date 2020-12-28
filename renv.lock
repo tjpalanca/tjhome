@@ -523,6 +523,13 @@
       "Repository": "RSPM",
       "Hash": "f665a0b29be7b65e077a181263ee450e"
     },
+    "lubridate": {
+      "Package": "lubridate",
+      "Version": "1.7.9.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "5b5b02f621d39a499def7923a5aee746"
+    },
     "magick": {
       "Package": "magick",
       "Version": "2.5.2",

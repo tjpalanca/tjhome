@@ -10,6 +10,7 @@
 #' @import assertthat
 #' @import later
 #' @import logger
+#' @import ggplot2
 #' @keywords internal
 "_PACKAGE"
 

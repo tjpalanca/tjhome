@@ -159,3 +159,68 @@ sensibo_maintain_devices <- function() {
       )
     )
 }
+
+#' @describeIn sensibo fetch historical data
+#' @param device_id device ID from sensibo
+#' @param days number of days back to retrieve
+#' @export
+sensibo_historical_measurements <- function(device_id, days = 1L) {
+  assert_that(is.string(device_id))
+  assert_that(is.number(days))
+  sensibo_call(
+    path = glue("pods/{device_id}/historicalMeasurements"),
+    query = list(days = days)
+  ) %$%
+    temperature %>%
+    tibble::enframe() %>%
+    tidyr::unnest_wider(value) %>%
+    transmute(timestamp = lubridate::as_datetime(time), temperature = value)
+}
+
+#' @describeIn sensibo temperature chart
+#' @export
+sensibo_temperature_chart <- function() {
+  sensibo_devices() %>%
+    left_join(sensibo_config(), by = "device_id") %>%
+    mutate(temperature_log =
+             map(device_id, ~sensibo_historical_measurements(.))) %>%
+    select(-temperature) %>%
+    tidyr::unnest(temperature_log) %>%
+    filter(timestamp > Sys.time() - lubridate::hours(24)) %>%
+    mutate(timestamp = timestamp + lubridate::hours(8)) %>%
+    filter(lubridate::hour(timestamp) %in% c(20:24, 0:8))  %>%
+    ggplot() +
+    geom_line(aes(x = timestamp, y = temperature)) +
+    geom_hline(aes(yintercept = unique(min_temp)), color = "blue") +
+    geom_hline(aes(yintercept = unique(max_temp)), color = "red") +
+    geom_label(
+      data = function(data) {
+        midpoint <-
+          min(data$timestamp) +
+          (max(data$timestamp) - min(data$timestamp))/2
+        tribble(
+          ~temperature, ~timestamp, ~label,
+          mean(c(max(data$temperature), unique(data$max_temp))),
+          midpoint, "High Fan Speed",
+          mean(c(unique(data$min_temp), unique(data$max_temp))),
+          midpoint, "Medium Fan Speed",
+          mean(c(min(data$temperature), unique(data$min_temp))),
+          midpoint, "Low Fan Speed"
+        )
+      },
+      mapping = aes(
+        y = temperature,
+        x = timestamp,
+        label = label
+      )
+    ) +
+    facet_wrap(~room_name) +
+    theme_bw() +
+    theme(
+      axis.title.x = element_blank()
+    ) +
+    labs(
+      y = "Temperature (Celsius)",
+      title = "AC Fan Speed Control"
+    )
+}

@@ -9,6 +9,7 @@
 \alias{sensibo_set_fan_speed}
 \alias{sensibo_config}
 \alias{sensibo_maintain_devices}
+\alias{sensibo_historical_measurements}
 \title{Sensibo}
 \usage{
 sensibo_call(
@@ -39,9 +40,11 @@ sensibo_set_fan_speed(device_id, fan_speed)
 sensibo_config()
 
 sensibo_maintain_devices()
+
+sensibo_historical_measurements(device_id, days = 1L)
 }
 \arguments{
-\item{device_id}{device ID}
+\item{device_id}{device ID from sensibo}
 
 \item{cur_temp}{current temperature reading}
 
@@ -58,6 +61,8 @@ sensibo_maintain_devices()
 \item{warm_fan_speed}{fan speed if the room is too warm}
 
 \item{fan_speed}{fan speed string setting}
+
+\item{days}{number of days back to retrieve}
 }
 \description{
 Sensibo is a device that allows control of air conditioning units.
@@ -79,5 +84,7 @@ API documentation is \href{https://sensibo.github.io/}{here}.
 \item \code{sensibo_config}: configuration for the maintenance job
 
 \item \code{sensibo_maintain_devices}: maintains devices according to the configuration
+
+\item \code{sensibo_historical_measurements}: fetch historical data
 }}
 
