@@ -133,7 +133,7 @@ sensibo_set_fan_speed <- function(device_id, fan_speed) {
 sensibo_config <- function() {
   tribble(
     ~device_id, ~min_temp, ~max_temp,
-    "vuBuhh96", 23.0, 24.0
+    "vuBuhh96", 22.0, 23.5
   )
 }
 
