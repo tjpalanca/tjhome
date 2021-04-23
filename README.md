@@ -4,6 +4,8 @@
 # TJHome
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/tjpalanca/tjhome/workflows/R-CMD-check/badge.svg)](https://github.com/tjpalanca/tjhome/actions)
 <!-- badges: end -->
 
 Home automation tools
