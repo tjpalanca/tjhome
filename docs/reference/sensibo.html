@@ -149,14 +149,16 @@ API documentation is here." />
 
 <span class='fu'>sensibo_config</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>sensibo_maintain_devices</span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'>sensibo_maintain_devices</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>sensibo_historical_measurements</span><span class='op'>(</span><span class='va'>device_id</span>, days <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>device_id</th>
-      <td><p>device ID</p></td>
+      <td><p>device ID from sensibo</p></td>
     </tr>
     <tr>
       <th>cur_temp</th>
@@ -190,19 +192,24 @@ API documentation is here." />
       <th>fan_speed</th>
       <td><p>fan speed string setting</p></td>
     </tr>
+    <tr>
+      <th>days</th>
+      <td><p>number of days back to retrieve</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
 <ul>
-<li><p><code>sensibo_call</code>: Generic API call, memoised</p></li>
+<li><p><code>sensibo_call</code>: Generic API call</p></li>
 <li><p><code>sensibo_info</code>: Get all the data as a tibble</p></li>
 <li><p><code>sensibo_devices</code>: Parse sensibo information into usable format</p></li>
 <li><p><code>sensibo_maintain_fan_speed</code>: maintains the temperature by adjusting the fan speed</p></li>
 <li><p><code>sensibo_set_fan_speed</code>: Sets the fan speed of a sensibo device</p></li>
 <li><p><code>sensibo_config</code>: configuration for the maintenance job</p></li>
 <li><p><code>sensibo_maintain_devices</code>: maintains devices according to the configuration</p></li>
+<li><p><code>sensibo_historical_measurements</code>: fetch historical data</p></li>
 </ul>
 
   </div>
