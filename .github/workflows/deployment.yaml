@@ -1,0 +1,32 @@
+name: Deployment
+
+on:
+    push:
+        branches:
+          - master
+        paths-ignore:
+          - 'docs/**'
+          - 'dev/**'
+
+jobs:
+    publish_and_deploy:
+        name: Publish and Deploy
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout the code
+            uses: actions/checkout@v2
+          - name: Login to Docker Hub
+            uses: docker/login-action@v1
+            with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          - name: Retrieve the image
+            run: make pkg-build-pull && make pkg-build
+          - name: Create Release
+            run: make pkg-release
+            env:
+                GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          - name: Publish the image
+            run: make pkg-publish
+          # - name: Deploy the service
+          #   run: make pkg-deploy

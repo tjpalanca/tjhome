@@ -1,6 +1,7 @@
 # Main Package Details
 APP=$(subst .,-,$(subst Package: ,,$(shell grep "Package: " DESCRIPTION)))
 VER=$(subst Version: ,,$(shell grep "Version: " DESCRIPTION))
+GIT=$(subst https://github.com/,,$(filter https://github.com/%,$(shell grep "URL: " DESCRIPTION)))
 REP=tjpalanca/apps
 LAT_IMG=$(REP):$(APP)-latest
 VER_IMG=$(REP):$(APP)-v$(VER)
@@ -10,7 +11,7 @@ CCH_IMG=$(REP):$(APP)-cache
 BUILD_ARGS=
 ENV_VARS=
 TEST_PORT=3838
-TEST_NAME=test01
+TEST_NAME=test
 GHA_ENV_VARS= \
 	--env R_CONFIG_ACTIVE="cicd" \
 	--env GITHUB_ACTIONS="$(GITHUB_ACTIONS)" \
@@ -19,13 +20,8 @@ GHA_ENV_VARS= \
 NODENAME=$(shell kubectl get pod $(HOSTNAME) -o=jsonpath={'.spec.nodeName'})
 
 # Cloud66 Redeployment Details
-C66_DEPLOY_SERVICES=tjhome
-
-# Log in to docker hub
-dockerhub-login:
-	echo ${DOCKERHUB_PASSWORD} | docker login \
-		-u ${DOCKERHUB_USERNAME} \
-		--password-stdin
+C66_DEPLOY_HOOK=
+C66_DEPLOY_SERVICES=
 
 # Pull the cache image
 pkg-build-pull:
@@ -60,72 +56,40 @@ pkg-publish:
 
 # Deploy to Cloud66
 pkg-deploy:
-	curl -X POST ${C66_DEPLOY_HOOK}?services=$(C66_DEPLOY_SERVICES)
+	curl -X POST $(C66_DEPLOY_HOOK)?services=$(C66_DEPLOY_SERVICES)
 
-# Run the package test suite
-pkg-test:
-	docker run -t --rm \
-        $(GHA_ENV_VARS) \
-		$(ENV_VARS) \
-		$(VER_IMG) \
-		Rscript -e "tjhome::dev_cicd_test_package()"
-
-# Measure package test coverage
-pkg-test-coverage:
-	mkdir -p /tmp/tjhome && \
-	sudo chown -R 1000:1000 /tmp/tjhome && \
-	docker run -t --rm \
-		-v /tmp/tjhome:/tmp/tjhome \
-		$(GHA_ENV_VARS) \
-		$(ENV_VARS) \
-		$(VER_IMG) \
-		Rscript -e "tjhome::dev_cicd_test_coverage(min_test_coverage = -Inf)"
-
-# Test for linting errors
-pkg-test-linting:
-	docker run -t --rm \
-	    $(GHA_ENV_VARS) \
-	    $(ENV_VARS) \
-		$(VER_IMG) \
-		Rscript -e "tjhome::dev_cicd_test_linting()"
-
-# Test for spelling errors
-pkg-test-spelling:
-	docker run -t --rm \
-	    $(GHA_ENV_VARS) \
-	    $(ENV_VARS) \
-		$(VER_IMG) \
-		Rscript -e "tjhome::dev_cicd_test_spelling()"
-
-# Release the package on github
+# Create Github Release
 pkg-release:
-	docker run -t --rm \
-		-e GITHUB_PAT \
-		$(VER_IMG) \
-		Rscript -e "tjhome::dev_release_package()"
+	curl \
+		-u tjpalanca:${GITHUB_PAT} \
+		-X POST \
+		-H "Accept: application/vnd.github.v3+json" \
+  		https://api.github.com/repos/$(GIT)/releases \
+  		-d '{"tag_name":"v$(VER)", "name":"$(APP) v$(VER)"}'
 
-# Build and deploy documentation
-pkg-docs-deploy:
-	[ -z "$$GITHUB_ACTIONS" ] && \
-	make pkg-docs-build-dev || \
-	make pkg-docs-build-gha && \
-	git add docs/* && \
-	git commit -m "Update package documentation" && \
-	git push
+# Test your application on a test URL
+kube-test-start:
+	kubectl run $(APP) \
+		--image=$(VER_IMG) \
+		--port=$(TEST_PORT) \
+		$(ENV_VARS) \
+		--overrides='{"apiVersion": "v1", "spec": { "nodeName" : "$(NODENAME)" } }' && \
+	kubectl expose pod/$(APP) \
+		--name=$(TEST_NAME) \
+		--port=80 \
+		--target-port=$(TEST_PORT)
 
-pkg-docs-build-gha:
-	mkdir -p docs && \
-	docker run -t --rm \
-		-v $(shell pwd)/docs:/tjhome/docs \
-		$(VER_IMG) \
-		Rscript -e "pkgdown::build_site();" && \
-	git config --global user.name 'GitHub Actions' && \
-	git config --global user.email 'actions@github.com'
+# Test in Kubernetes Cluster
+kube-test-stop:
+	kubectl delete svc/$(TEST_NAME) & \
+	kubectl delete pod/$(APP)
 
-pkg-docs-build-dev:
-	mkdir -p docs && \
-	docker run -t --rm \
-		--user 1000:1000 \
-		-v /mnt/data-store$(shell pwd)/docs:/tjhome/docs \
-		$(VER_IMG) \
-		Rscript -e "pkgdown::build_site();"
+# Restart through iterative testing
+kube-test-restart:
+	make kube-test-stop && \
+	make pkg-build && \
+	make kube-test-start
+
+# Surface logs
+kube-logs:
+	kubectl logs $(APP)

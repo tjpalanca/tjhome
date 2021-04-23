@@ -10,6 +10,7 @@
 \alias{sensibo_config}
 \alias{sensibo_maintain_devices}
 \alias{sensibo_historical_measurements}
+\alias{sensibo_temperature_chart}
 \title{Sensibo}
 \usage{
 sensibo_call(
@@ -42,6 +43,8 @@ sensibo_config()
 sensibo_maintain_devices()
 
 sensibo_historical_measurements(device_id, days = 1L)
+
+sensibo_temperature_chart()
 }
 \arguments{
 \item{device_id}{device ID from sensibo}
@@ -86,5 +89,7 @@ API documentation is \href{https://sensibo.github.io/}{here}.
 \item \code{sensibo_maintain_devices}: maintains devices according to the configuration
 
 \item \code{sensibo_historical_measurements}: fetch historical data
+
+\item \code{sensibo_temperature_chart}: temperature chart
 }}
 

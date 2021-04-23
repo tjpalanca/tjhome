@@ -11,6 +11,7 @@ I use this package to manage the smart devices in my home.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://github.tjpalanca.com/tjhome}
   \item \url{https://github.com/tjpalanca/tjhome}
   \item Report bugs at \url{https://github.com/tjpalanca/tjhome/issues}
 }
