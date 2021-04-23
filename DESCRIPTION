@@ -16,7 +16,6 @@ RoxygenNote: 7.1.1
 URL: http://github.tjpalanca.com/tjhome, https://github.com/tjpalanca/tjhome
 BugReports: https://github.com/tjpalanca/tjhome/issues
 Imports: 
-    tjutils,
     httr,
     glue,
     magrittr,
