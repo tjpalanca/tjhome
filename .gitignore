@@ -1,0 +1,15 @@
+# Mac OS Files
+.DS_Store
+
+# Configuration 
+.vscode/
+
+# Caches 
+__pycache__/
+.mypy_cache/
+
+# Environment Files
+.env*
+
+# Sandbox
+scripts/sandbox.py
