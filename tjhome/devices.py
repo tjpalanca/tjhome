@@ -1,5 +1,4 @@
 from tuya_iot import TuyaOpenAPI
-import os
 from dataclasses import dataclass
 
 

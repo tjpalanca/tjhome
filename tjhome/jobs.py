@@ -1,5 +1,5 @@
-from tjhome.sources import AirQualityAPIClient
-from tjhome.devices import TuyaAirPurifier
+from sources import AirQualityAPIClient
+from devices import TuyaAirPurifier
 from dagster import job, op, ScheduleDefinition
 from os import environ
 import json
