@@ -14,7 +14,7 @@ def current_aqi(context) -> int:
 
 
 @op
-def air_purifier_control(context, current_aqi, threshold=50) -> None:
+def air_purifier_control(context, current_aqi, threshold=40) -> None:
     for device_id in json.loads(environ["AIR_PURIFIER_DEVICE_IDS"]):
         device = TuyaAirPurifier(
             device_id,
