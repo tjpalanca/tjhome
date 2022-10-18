@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "TJHome",
+    "section": "",
+    "text": "TJ’s Smart Home Utilities"
+  },
+  {
+    "objectID": "01-air_quality.html",
+    "href": "01-air_quality.html",
+    "title": "Air Quality",
+    "section": "",
+    "text": "from nbdev.showdoc import show_doc"
+  },
+  {
+    "objectID": "01-air_quality.html#air-purifier",
+    "href": "01-air_quality.html#air-purifier",
+    "title": "Air Quality",
+    "section": "Air Purifier",
+    "text": "Air Purifier\nWe create a TuyaAirPurifier that we can use to turn on and off the air purifier.\n\n\nTuyaAirPurifier\n\n TuyaAirPurifier (device_id:str, client_id:str, client_secret:str,\n                  country_code:str, username:str, password:str,\n                  endpoint:str='https://openapi.tuyaus.com',\n                  appschema:str='smartLife')\n\nPurifiers controlled by a Tuya Smart Switch\n\n\n\nAirPurifier\n\n AirPurifier ()\n\nAir Purifiers purify the air and protect the home from pollution.\n\n\n\nDevice\n\n Device ()\n\nGeneric class that encapsulates all smart home devices"
+  },
+  {
+    "objectID": "01-air_quality.html#air-quality-source",
+    "href": "01-air_quality.html#air-quality-source",
+    "title": "Air Quality",
+    "section": "Air Quality Source",
+    "text": "Air Quality Source\nWe fetch air quality data for the nearest location from the aqicn.org API.\n\n\nAirQualityAPIClient\n\n AirQualityAPIClient (token:str)\n\nAir Quality Index API Client\nDocumentation"
+  },
+  {
+    "objectID": "01-air_quality.html#dagster-job",
+    "href": "01-air_quality.html#dagster-job",
+    "title": "Air Quality",
+    "section": "Dagster Job",
+    "text": "Dagster Job\nWe create a dagster job that performs the automation.\n\n\ncurrent_aqi\n\n current_aqi (context)\n\nFetch the current AQI from AQICN.org\n\n\n\nair_purifier_control\n\n air_purifier_control (context, current_aqi, threshold=50)\n\nIf the current AQI exceeds the defined threshold, we turn on the air purifier. Otherwise, we turn it off.\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\ncontext\n\n\n\n\n\ncurrent_aqi\n\n\nCurrent AQI reading\n\n\nthreshold\nint\n50\nAQI Threshold above which to turn on air purifier\n\n\nReturns\nNone\n\n\n\n\n\n\n\n\nregulate_air_quality\n\n regulate_air_quality ()\n\nDagster Job regulates air quality"
+  },
+  {
+    "objectID": "00-dagster_repository.html",
+    "href": "00-dagster_repository.html",
+    "title": "tjhome",
+    "section": "",
+    "text": "This is the central Dagster Repository that stores all the jobs, ready to be imported by a Dagster installation.\n\n\n\n\n\n\n tjhome ()"
+  }
+]
