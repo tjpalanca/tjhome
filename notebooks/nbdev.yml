@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "tjhome"
+  site-url: "https://tjpalanca.com/tjhome"
+  description: "TJ's Smart Home Utilities"
+  repo-branch: master
+  repo-url: "https://github.com/tjpalanca/tjhome.git"
