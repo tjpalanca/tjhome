@@ -16,7 +16,7 @@ terraform {
 locals {
   keycloak_url   = "https://${var.keycloak_subdomain}.${var.main_cloudflare_zone_name}"
   keycloak_realm = "tjcloud"
-  subdomain      = "google"
+  subdomain      = "home"
   domain         = "${local.subdomain}.${var.main_cloudflare_zone_name}"
 }
 
@@ -28,6 +28,6 @@ resource "keycloak_openid_client" "client" {
   access_type           = "CONFIDENTIAL"
   standard_flow_enabled = true
   valid_redirect_uris = [
-    "https://${local.domain}/oauth2/callback"
+    "https://${local.domain}/oauth2/google/callback"
   ]
 }
