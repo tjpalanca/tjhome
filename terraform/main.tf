@@ -16,7 +16,7 @@ terraform {
 locals {
   keycloak_url   = "https://${var.keycloak_subdomain}.${var.main_cloudflare_zone_name}"
   keycloak_realm = "tjcloud"
-  subdomain      = "home"
+  subdomain      = "google"
   domain         = "${local.subdomain}.${var.main_cloudflare_zone_name}"
 }
 
