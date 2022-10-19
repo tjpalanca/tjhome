@@ -3,4 +3,5 @@ provider "keycloak" {
   username  = var.keycloak_admin_username
   password  = var.keycloak_admin_password
   url       = local.keycloak_url
+  base_path = ""
 }
