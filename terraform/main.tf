@@ -23,23 +23,40 @@ terraform {
 
 locals {
   keycloak_url = "https://${var.keycloak_subdomain}.${var.main_cloudflare_zone_name}"
+  port         = 3333
 }
 
-resource "keycloak_realm" "main" {
+resource "keycloak_realm" "tjhome" {
   realm             = "tjhome"
   display_name      = "TJHome"
   display_name_html = "<div class='logo-text'><img style='max-height: 120px;' src='https://tjpalanca.com/assets/logo/logo-small.png'></div>"
   login_theme       = "social"
 }
 
-module "code_port_gateway" {
+resource "kubernetes_service_v1" "tjhome" {
+  metadata {
+    name      = "tjhome"
+    namespace = "code"
+  }
+  spec {
+    selector = {
+      app = "code"
+    }
+    port {
+      port        = local.port
+      target_port = local.port
+    }
+  }
+}
+
+module "tjhome_gateway" {
   source    = "github.com/tjpalanca/tjcloud//elements/gateway"
   host      = "home"
   zone_id   = var.main_cloudflare_zone_id
   zone_name = var.main_cloudflare_zone_name
   service = {
-    name      = "code"
-    port      = 8889
+    name      = "tjhome"
+    port      = local.port
     namespace = "code"
   }
   keycloak_realm_id = "tjcloud"
