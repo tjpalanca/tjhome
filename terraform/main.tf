@@ -64,5 +64,9 @@ module "gateway" {
     namespace = kubernetes_service_v1.service.metadata[0].namespace
   }
   keycloak_realm_id = module.keycloak_realm.realm.id
-  keycloak_url      = local.keycloak_url
+  additional_redirect_uris = [
+    "https://oauth-redirect.googleusercontent.com/r/*",
+    "https://oauth-redirect-sandbox.googleusercontent.com/r/YOUR_PROJECT_ID/*"
+  ]
+  keycloak_url = local.keycloak_url
 }
