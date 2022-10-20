@@ -23,7 +23,7 @@ terraform {
 
 locals {
   keycloak_url = "https://${var.keycloak_subdomain}.${var.main_cloudflare_zone_name}"
-  port         = 3333
+  port         = 3838
 }
 
 resource "keycloak_realm" "tjhome" {
@@ -55,9 +55,9 @@ module "tjhome_gateway" {
   zone_id   = var.main_cloudflare_zone_id
   zone_name = var.main_cloudflare_zone_name
   service = {
-    name      = "tjhome"
-    port      = local.port
-    namespace = "code"
+    name      = kubernetes_service_v1.metadata.name
+    port      = kubernetes_service_v1.spec.port[0].port
+    namespace = kubernetes_service_v1.metadata.namespace
   }
   keycloak_realm_id = "tjcloud"
   keycloak_url      = local.keycloak_url
