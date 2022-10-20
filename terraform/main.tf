@@ -42,8 +42,6 @@ module "code_port_gateway" {
     port      = 3838
     namespace = "code"
   }
-  keycloak_realm_id     = "tjcloud"
-  keycloak_url          = local.keycloak_url
-  keycloak_groups       = []
-  default_client_scopes = []
+  keycloak_realm_id = "tjcloud"
+  keycloak_url      = local.keycloak_url
 }
