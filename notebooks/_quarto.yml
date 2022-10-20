@@ -16,6 +16,7 @@ format:
     - litera
     - theme/theme.scss
     title-block-banner: false
+    toc: true
 metadata-files:
 - nbdev.yml
 - sidebar.yml
