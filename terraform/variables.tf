@@ -10,6 +10,14 @@ variable "main_cloudflare_zone_name" {
   type = string
 }
 
+variable "public_cloudflare_zone_id" {
+  type = string
+}
+
+variable "public_cloudflare_zone_name" {
+  type = string
+}
+
 variable "keycloak_admin_username" {
   type = string
 }
