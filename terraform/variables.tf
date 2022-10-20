@@ -37,3 +37,7 @@ variable "google_client_id" {
 variable "google_client_secret" {
   type = string
 }
+
+variable "gcp_project_id" {
+  type = string
+}

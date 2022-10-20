@@ -65,8 +65,8 @@ module "gateway" {
   }
   keycloak_realm_id = module.keycloak_realm.realm.id
   additional_redirect_uris = [
-    "https://oauth-redirect.googleusercontent.com/r/*",
-    "https://oauth-redirect-sandbox.googleusercontent.com/r/YOUR_PROJECT_ID/*"
+    "https://oauth-redirect.googleusercontent.com/r/${var.gcp_project_id}",
+    "https://oauth-redirect-sandbox.googleusercontent.com/r/${var.gcp_project_id}"
   ]
   keycloak_url = local.keycloak_url
 }
