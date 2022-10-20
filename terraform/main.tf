@@ -39,7 +39,7 @@ module "code_port_gateway" {
   zone_name = var.main_cloudflare_zone_name
   service = {
     name      = "code"
-    port      = 3839
+    port      = 3838
     namespace = "code"
   }
   keycloak_realm_id     = "tjcloud"
