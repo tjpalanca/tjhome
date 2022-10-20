@@ -44,5 +44,6 @@ module "code_port_gateway" {
   }
   keycloak_realm_id     = "tjcloud"
   keycloak_url          = local.keycloak_url
+  keycloak_groups       = []
   default_client_scopes = ["groups"]
 }
