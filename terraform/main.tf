@@ -55,10 +55,10 @@ module "tjhome_gateway" {
   zone_id   = var.main_cloudflare_zone_id
   zone_name = var.main_cloudflare_zone_name
   service = {
-    name      = kubernetes_service_v1.metadata.name
-    port      = kubernetes_service_v1.spec.port[0].port
-    namespace = kubernetes_service_v1.metadata.namespace
+    name      = kubernetes_service_v1.tjhome.metadata[0].name
+    port      = kubernetes_service_v1.tjhome.spec.port[0].port
+    namespace = kubernetes_service_v1.tjhome.metadata[0].namespace
   }
-  keycloak_realm_id = "tjcloud"
+  keycloak_realm_id = keycloak_realm.tjhome.id
   keycloak_url      = local.keycloak_url
 }
