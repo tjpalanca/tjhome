@@ -26,13 +26,6 @@ locals {
   port         = 3838
 }
 
-resource "keycloak_realm" "tjhome" {
-  realm             = "tjhome"
-  display_name      = "TJHome"
-  display_name_html = "<div class='logo-text'><img style='max-height: 120px;' src='https://tjpalanca.com/assets/logo/logo-small.png'></div>"
-  login_theme       = "social"
-}
-
 resource "kubernetes_service_v1" "tjhome" {
   metadata {
     name      = "tjhome"
@@ -59,6 +52,6 @@ module "tjhome_gateway" {
     port      = kubernetes_service_v1.tjhome.spec[0].port[0].port
     namespace = kubernetes_service_v1.tjhome.metadata[0].namespace
   }
-  keycloak_realm_id = keycloak_realm.tjhome.id
+  keycloak_realm_id = "tjcloud"
   keycloak_url      = local.keycloak_url
 }
