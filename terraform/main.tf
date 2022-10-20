@@ -53,16 +53,16 @@ resource "kubernetes_service_v1" "tjhome" {
   }
 }
 
-module "tjhome_gateway" {
-  source    = "github.com/tjpalanca/tjcloud//elements/gateway"
-  host      = "home"
-  zone_id   = var.main_cloudflare_zone_id
-  zone_name = var.main_cloudflare_zone_name
-  service = {
-    name      = kubernetes_service_v1.tjhome.metadata[0].name
-    port      = kubernetes_service_v1.tjhome.spec[0].port[0].port
-    namespace = kubernetes_service_v1.tjhome.metadata[0].namespace
-  }
-  keycloak_realm_id = module.keycloak_realm.realm.id
-  keycloak_url      = local.keycloak_url
-}
+# module "tjhome_gateway" {
+#   source    = "github.com/tjpalanca/tjcloud//elements/gateway"
+#   host      = "home"
+#   zone_id   = var.main_cloudflare_zone_id
+#   zone_name = var.main_cloudflare_zone_name
+#   service = {
+#     name      = kubernetes_service_v1.tjhome.metadata[0].name
+#     port      = kubernetes_service_v1.tjhome.spec[0].port[0].port
+#     namespace = kubernetes_service_v1.tjhome.metadata[0].namespace
+#   }
+#   keycloak_realm_id = module.keycloak_realm.realm.id
+#   keycloak_url      = local.keycloak_url
+# }
