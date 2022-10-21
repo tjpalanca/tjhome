@@ -68,5 +68,8 @@ module "gateway" {
     "https://oauth-redirect.googleusercontent.com/r/${var.gcp_project_id}",
     "https://oauth-redirect-sandbox.googleusercontent.com/r/${var.gcp_project_id}"
   ]
+  additional_configuration = {
+    SKIP_JWT_BEARER_TOKENS = "true"
+  }
   keycloak_url = local.keycloak_url
 }
