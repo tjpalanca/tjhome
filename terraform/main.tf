@@ -69,7 +69,7 @@ module "gateway" {
     "https://oauth-redirect-sandbox.googleusercontent.com/r/${var.gcp_project_id}"
   ]
   additional_configuration = {
-    OAUTH2_PROXY_SKIP_JWT_BEARER_TOKENS = "true"
+    OAUTH2_PROXY_SKIP_JWT_BEARER_TsOKENS = "true"
   }
   keycloak_url = local.keycloak_url
 }
