@@ -21,3 +21,6 @@ _docs/
 
 # Terraform
 .terraform/
+
+# Secrets 
+.secrets/
