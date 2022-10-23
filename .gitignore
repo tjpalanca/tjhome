@@ -18,3 +18,9 @@ _proc/
 _docs/
 .gitconfig
 .gitattributes
+
+# Terraform
+.terraform/
+
+# Secrets 
+.secrets/
