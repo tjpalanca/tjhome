@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['living_area_ceiling_fan', 'master_bedroom_ceiling_fan', 'common_bedroom_ceiling_fan', 'Device', 'AirPurifier', 'Fan',
-           'CeilingFan', 'TuyaDevice', 'TuyaSceneDevice', 'TuyaAirPurifier', 'DaikoCeilingFan1', 'DaikoCeilingFan2']
+           'CeilingFan', 'TuyaDevice', 'TuyaSceneDevice', 'TuyaAirPurifier', 'DaikoCeilingFan1', 'DaikoCeilingFan2',
+           'SwitchBot']
 
 # %% ../notebooks/devices.ipynb 1
 import os
@@ -10,6 +11,7 @@ import os
 from typing import Any, Optional
 from pydantic import BaseModel
 from tuya_iot import TuyaOpenAPI
+from switchbot_client import SwitchBotClient
 
 # %% ../notebooks/devices.ipynb 3
 class Device:
@@ -140,3 +142,21 @@ common_bedroom_ceiling_fan = DaikoCeilingFan2(
     fan_2_scene_id="bHsXR52LReWvhxSL",
     fan_3_scene_id="mg8wiQ4u9WTMy6BM",
 )
+
+# %% ../notebooks/devices.ipynb 15
+class SwitchBot(BaseModel):
+    "A Switchbot controlling a light switch"
+    device_id: str
+    device: Optional[Any]
+    client: Optional[Any]
+
+    def connect(self):
+        self.client = SwitchBotClient()
+        self.device = self.client.device(self.device_id)
+        return self
+
+    def turn_on(self):
+        self.device.turn_on()
+
+    def turn_off(self):
+        self.device.turn_off()
